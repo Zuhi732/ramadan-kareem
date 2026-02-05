@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "Arial", sans-serif;
+  overflow-x: hidden;
+}
+
+/* গোল্ডেন টেক্সট শাইন ইফেক্ট */
+.text-shine {
+  background: linear-gradient(
+    to right,
+    #d4af37 20%,
+    #fff 40%,
+    #d4af37 60%,
+    #d4af37 80%
+  );
+  background-size: 200% auto;
+  color: #000;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* ভেসে থাকার (Floating) অ্যানিমেশন */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* 3D গ্লসি বাটন */
+.btn-glossy {
+  background: linear-gradient(145deg, #d4af37, #b59325);
+  box-shadow:
+    0 4px 15px rgba(212, 175, 55, 0.4),
+    inset 0 2px 5px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-glossy:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.6);
+}
