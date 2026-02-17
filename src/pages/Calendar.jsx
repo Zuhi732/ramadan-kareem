@@ -10,22 +10,24 @@ const Calendar = () => {
   const [ramadanData, setRamadanData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // লোকেশন লিস্ট
+  // লোকেশন লিস্ট (Noakhali এবং Saudi Arabia যোগ করা হয়েছে)
   const locations = [
     { name: "Dhaka", value: "Dhaka", country: "Bangladesh" },
     { name: "Chittagong", value: "Chittagong", country: "Bangladesh" },
+    { name: "Noakhali", value: "Noakhali", country: "Bangladesh" },
     { name: "Sylhet", value: "Sylhet", country: "Bangladesh" },
     { name: "Rajshahi", value: "Rajshahi", country: "Bangladesh" },
     { name: "Khulna", value: "Khulna", country: "Bangladesh" },
     { name: "Barisal", value: "Barisal", country: "Bangladesh" },
     { name: "Rangpur", value: "Rangpur", country: "Bangladesh" },
     { name: "Mymensingh", value: "Mymensingh", country: "Bangladesh" },
+    { name: "Mecca, Saudi Arabia", value: "Mecca", country: "Saudi Arabia" },
     { name: "Michigan, USA", value: "Detroit", country: "US" },
     { name: "New York, USA", value: "New York", country: "US" },
     { name: "London, UK", value: "London", country: "GB" },
   ];
 
-  // সময় ফরম্যাট (AM/PM)
+  // সময় ফরম্যাট (AM/PM)
   const formatTime = (time) => {
     if (!time) return "Loading...";
     const cleanTime = time.split(" ")[0];
@@ -41,7 +43,7 @@ const Calendar = () => {
   useEffect(() => {
     setLoading(true);
 
-    // ১. আজকের সময়ের জন্য API কল
+    // ১. আজকের সময়ের জন্য API কল
     fetch(
       `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2&school=1`,
     )
@@ -51,7 +53,7 @@ const Calendar = () => {
       })
       .catch((err) => console.error("Today time error:", err));
 
-    // ২. রমজানের ক্যালেন্ডার (ফেব্রুয়ারি ও মার্চ ২০২৬)
+    // ২. রমজানের ক্যালেন্ডার (ফেব্রুয়ারি ও মার্চ ২০২৬)
     const fetchFeb = fetch(
       `https://api.aladhan.com/v1/calendarByCity?city=${city}&country=${country}&method=2&school=1&month=2&year=2026`,
     );
@@ -65,8 +67,8 @@ const Calendar = () => {
         const data2 = await res2.json();
         const allDays = [...data1.data, ...data2.data];
 
-        // ১৮ ফেব্রুয়ারি ২০২৬ থেকে শুরু
-        const startDate = new Date(2026, 1, 18);
+        // ১৯ ফেব্রুয়ারি ২০২৬ থেকে শুরু (আপডেট করা হয়েছে)
+        const startDate = new Date(2026, 1, 19);
 
         const filteredDays = allDays.filter((day) => {
           const [d, m, y] = day.date.gregorian.date.split("-");
@@ -74,6 +76,7 @@ const Calendar = () => {
           return currentDay >= startDate;
         });
 
+        // ৩০ দিনের ডাটা নেওয়া হচ্ছে (১৯ ফেব্রুয়ারি থেকে ২০ মার্চ পর্যন্ত)
         setRamadanData(filteredDays.slice(0, 30));
         setLoading(false);
       })
@@ -101,7 +104,7 @@ const Calendar = () => {
           রমজান ক্যালেন্ডার ২০২৬
         </h2>
 
-        {/* লোকেশন সিলেক্টর - ফিক্সড ভার্সন */}
+        {/* লোকেশন সিলেক্টর */}
         <div className="flex justify-center items-center gap-3 bg-gray-900 p-3 rounded-lg border border-gray-700 w-fit mx-auto shadow-lg">
           <FaMapMarkerAlt className="text-red-500 text-xl" />
           <span className="text-gray-300 font-semibold hidden md:block">
@@ -122,12 +125,12 @@ const Calendar = () => {
         </div>
       </div>
 
-      {/* আজকের সময় - লোডিং হ্যান্ডলিং সহ */}
+      {/* আজকের সময় */}
       <div className="max-w-4xl mx-auto mb-12">
         {todayTimes ? (
           <div className="bg-gradient-to-r from-gray-900 to-black p-6 rounded-2xl border border-gray-800 text-center shadow-lg">
             <h3 className="text-xl text-gray-400 mb-4 flex items-center justify-center gap-2">
-              <FaClock /> আজকের নামাজের সময় ({city})
+              <FaClock /> আজকের নামাজের সময় ({city})
             </h3>
             <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-sm md:text-base font-mono">
               <span className="bg-gray-800 px-4 py-2 rounded text-blue-300">
@@ -155,7 +158,7 @@ const Calendar = () => {
       {/* ক্যালেন্ডার টেবিল */}
       <div className="max-w-5xl mx-auto overflow-x-auto rounded-xl border border-white/10 shadow-2xl bg-gray-900/30">
         <div className="bg-islamicGold p-4 text-black text-center font-bold text-xl flex items-center justify-center gap-2">
-          <FaMoon /> পবিত্র মাহে রমজানের সময়সূচি
+          <FaMoon /> পবিত্র মাহে রমজানের সময়সূচি
         </div>
 
         {loading ? (
