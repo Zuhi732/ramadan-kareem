@@ -6,7 +6,8 @@ const Home = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const calculateTimeLeft = () => {
-    const ramadanStart = new Date("February 18, 2026 00:00:00").getTime();
+    // এখানে ১৮ এর জায়গায় ১৯ করা হয়েছে
+    const ramadanStart = new Date("February 19, 2026 00:00:00").getTime();
     const now = new Date().getTime();
     const difference = ramadanStart - now;
 
@@ -97,7 +98,7 @@ const Home = () => {
           className="md:w-1/2 flex justify-center animate-float"
           style={{ animationDelay: "1s" }}
         >
-          {/* মোবাইলের জন্য সাইজ কমানো হয়েছে (w-48 h-48) যাতে পুরো স্ক্রিন দখল না করে */}
+          {/* মোবাইলের জন্য সাইজ কমানো হয়েছে (w-48 h-48) যাতে পুরো স্ক্রিন দখল না করে */}
           <div className="relative w-48 h-48 md:w-[500px] md:h-[500px]">
             <div className="absolute inset-0 bg-islamicGold/20 blur-[50px] md:blur-[80px] rounded-full"></div>
 
