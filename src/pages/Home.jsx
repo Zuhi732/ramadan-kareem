@@ -6,7 +6,6 @@ const Home = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const calculateTimeLeft = () => {
-    // এখানে ১৮ এর জায়গায় ১৯ করা হয়েছে
     const ramadanStart = new Date("February 19, 2026 00:00:00").getTime();
     const now = new Date().getTime();
     const difference = ramadanStart - now;
@@ -23,7 +22,7 @@ const Home = () => {
         seconds: Math.floor((difference % (1000 * 60)) / 1000),
       };
     } else {
-      timeLeft = { message: "Ramadan Mubarak!" };
+      timeLeft = { message: "রমজান মোবারক" };
     }
     return timeLeft;
   };
@@ -48,7 +47,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center pt-20 md:pt-0">
-      {/* Background Image (Optimized: Quality 60, Width 1200 for faster load) */}
+      {/* Background Image */}
       <div className="absolute inset-0 bg-black">
         <img
           src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=60&w=1200&auto=format&fit=crop"
@@ -62,24 +61,33 @@ const Home = () => {
       <div className="relative z-10 w-full max-w-6xl px-4 flex flex-col-reverse md:flex-row items-center justify-between gap-6 md:gap-10">
         {/* Left Side: Text Content */}
         <div className="text-center md:text-left md:w-1/2 space-y-4 md:space-y-6 animate-float pb-10 md:pb-0">
-          <h1 className="text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-islamicGold to-white drop-shadow-2xl mt-4 md:mt-0">
-            রমজান আসছে
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300">
-            প্রস্তুত হোন রহমতের মাসের জন্য।
-          </p>
-
           {timeLeft.message ? (
-            <h2 className="text-3xl md:text-5xl font-bold text-islamicGold animate-bounce">
-              {timeLeft.message}
-            </h2>
+            // --- রমজান শুরু হয়ে গেলে এটি দেখাবে ---
+            <>
+              <h1 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-islamicGold to-white drop-shadow-2xl mt-4 md:mt-0 animate-pulse">
+                {timeLeft.message}
+              </h1>
+              <p className="text-lg md:text-xl text-gray-300">
+                রহমত, মাগফিরাত ও নাজাতের মাস শুরু হয়ে গেছে। আল্লাহ আমাদের সকল
+                ইবাদত কবুল করুন।
+              </p>
+            </>
           ) : (
-            <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4 mt-6">
-              <TimeBox value={timeLeft.days} label="Days" />
-              <TimeBox value={timeLeft.hours} label="Hours" />
-              <TimeBox value={timeLeft.minutes} label="Min" />
-              <TimeBox value={timeLeft.seconds} label="Sec" />
-            </div>
+            // --- রমজানের আগের কাউন্টডাউন ---
+            <>
+              <h1 className="text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-islamicGold to-white drop-shadow-2xl mt-4 md:mt-0">
+                রমজান আসছে
+              </h1>
+              <p className="text-lg md:text-xl text-gray-300">
+                প্রস্তুত হোন রহমতের মাসের জন্য।
+              </p>
+              <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4 mt-6">
+                <TimeBox value={timeLeft.days} label="Days" />
+                <TimeBox value={timeLeft.hours} label="Hours" />
+                <TimeBox value={timeLeft.minutes} label="Min" />
+                <TimeBox value={timeLeft.seconds} label="Sec" />
+              </div>
+            </>
           )}
 
           {/* Button Section */}
@@ -98,15 +106,13 @@ const Home = () => {
           className="md:w-1/2 flex justify-center animate-float"
           style={{ animationDelay: "1s" }}
         >
-          {/* মোবাইলের জন্য সাইজ কমানো হয়েছে (w-48 h-48) যাতে পুরো স্ক্রিন দখল না করে */}
           <div className="relative w-48 h-48 md:w-[500px] md:h-[500px]">
             <div className="absolute inset-0 bg-islamicGold/20 blur-[50px] md:blur-[80px] rounded-full"></div>
-
             <img
               src="/moon.png"
               alt="Ramadan Moon"
               className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]"
-              loading="lazy" // Lazy loading added
+              loading="lazy"
               onError={(e) => {
                 e.target.src = "https://pngimg.com/d/moon_PNG19.png";
               }}
